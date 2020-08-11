@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 from config import config_by_name
-from .models import db
+from application.models import db
 
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
