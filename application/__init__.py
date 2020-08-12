@@ -3,6 +3,7 @@ import os
 from flask import Flask
 
 from config import config_by_name
+from application.apis import create_apis
 from application.models import db
 
 def create_app(config_name):
@@ -15,6 +16,12 @@ def create_app(config_name):
     @app.route('/', methods=['GET'])
     def index():
         return 'Hello Zé Delivery'
+
+    app.logger.info('creating apis')
+    from flask_potion import Api
+
+    api = Api(app, prefix='/api/v1', title='Zé API')
+    create_apis(api)
 
     app.logger.info('Finished initialization')
 
