@@ -55,7 +55,15 @@ class PartnerResource(ModelResource):
         name = 'partner'
 
     class Schema:
-        pass
+        address = fields.Custom(
+            {},
+            converter=GeometrySerializer.address_converter,
+            formatter=GeometrySerializer.address_formatter)
+
+        coverage_area = fields.Custom(
+            {},
+            converter=GeometrySerializer.coverage_area_converter,
+            formatter=GeometrySerializer.coverage_area_formatter)
 
 def create_apis(api):
     api.add_resource(PartnerResource)
