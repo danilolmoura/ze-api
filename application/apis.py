@@ -3,44 +3,9 @@ import pdb
 from flask_potion import fields, ModelResource
 from flask_potion.routes import Route
 from geoalchemy2.shape import from_shape, to_shape
-from shapely.geometry import Point, MultiPolygon
+from shapely.geometry import Point
 
 from application.models import Partner
-
-class GeometrySerializer:
-    @staticmethod
-    def address_converter(data):
-        wkb_element = from_shape(
-            Point(data['coordinates'][1], data['coordinates'][0]))
-
-        return wkb_element
-
-    @staticmethod
-    def address_formatter(data):
-        point = to_shape(data)
-
-        return {
-            "type": "Point",
-            "coordinates": [point.y, point.x]
-        }
-
-    @staticmethod
-    def coverage_area_converter(data):
-        wkb_element = from_shape(
-            MultiPolygon([[data['coordinates'][0][0], []]]))
-
-        return wkb_element
-
-    @staticmethod
-    def coverage_area_formatter(data):
-        multipolygon = to_shape(data)
-
-        return {
-            "type": "MultiPolygon",
-            "coordinates": [
-                [polygon.exterior.coords[:-1] for polygon in multipolygon]]
-        }
-
 
 class PartnerResource(ModelResource):
     class Meta:
@@ -51,13 +16,13 @@ class PartnerResource(ModelResource):
     class Schema:
         address = fields.Custom(
             {},
-            converter=GeometrySerializer.address_converter,
-            formatter=GeometrySerializer.address_formatter)
+            converter=Partner.address_from_json,
+            formatter=Partner.address_to_json)
 
         coverage_area = fields.Custom(
             {},
-            converter=GeometrySerializer.coverage_area_converter,
-            formatter=GeometrySerializer.coverage_area_formatter)
+            converter=Partner.coverage_from_json,
+            formatter=Partner.coverage_area_to_json)
 
     @Route.GET('/nearest')
     def nearest(
@@ -93,9 +58,9 @@ class PartnerResource(ModelResource):
 
         return {
             '$id': closer_partner.id,
-            'address': GeometrySerializer.address_formatter(
+            'address': Partner.address_to_json(
                 closer_partner.address),
-            'coverage_area': GeometrySerializer.coverage_area_formatter(
+            'coverage_area': Partner.coverage_area_to_json(
                 closer_partner.coverage_area),
             'document': closer_partner.document,
             'owner_name': closer_partner.owner_name,
