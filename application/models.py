@@ -32,13 +32,13 @@ class Partner(db.Model):
 
     address = db.Column(
         Geometry(geometry_type='POINT'),
-        nullable=True,
+        nullable=False,
         index=True,
         doc='endereço do parceiro')
 
     coverage_area = db.Column(
         Geometry(geometry_type='MULTIPOLYGON'),
-        nullable=True,
+        nullable=False,
         index=True,
         doc='cobertura do parceiro')
 
