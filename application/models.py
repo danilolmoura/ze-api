@@ -81,10 +81,10 @@ class Partner(db.Model):
 
     def to_json(self):
         return {
-            '$id': self.id,
             'address': Partner.address_to_json(self.address),
             'coverageArea': Partner.coverage_area_to_json(self.coverageArea),
             'document': self.document,
             'ownerName': self.ownerName,
-            'tradingName': self.tradingName
+            'tradingName': self.tradingName,
+            '$id': self.id
         }
