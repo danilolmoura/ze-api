@@ -59,7 +59,7 @@ class Partner(db.Model):
         }
 
     @staticmethod
-    def coverage_from_json(data):
+    def coverage_area_from_json(data):
         wkb_element = from_shape(
             MultiPolygon([[data['coordinates'][0][0], []]]))
 
@@ -73,4 +73,14 @@ class Partner(db.Model):
             "type": "MultiPolygon",
             "coordinates": [
                 [polygon.exterior.coords[:-1] for polygon in multipolygon]]
+        }
+
+    def to_json(self):
+        return {
+            '$id': self.id,
+            'address': Partner.address_to_json(self.address),
+            'coverage_area': Partner.coverage_area_to_json(self.coverage_area),
+            'document': self.document,
+            'owner_name': self.owner_name,
+            'trading_name': self.trading_name
         }

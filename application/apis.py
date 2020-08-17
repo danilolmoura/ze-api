@@ -21,7 +21,7 @@ class PartnerResource(ModelResource):
 
         coverage_area = fields.Custom(
             {},
-            converter=Partner.coverage_from_json,
+            converter=Partner.coverage_area_from_json,
             formatter=Partner.coverage_area_to_json)
 
     @Route.GET('/nearest')
@@ -56,16 +56,7 @@ class PartnerResource(ModelResource):
                 closer_partner = partner
                 max_distance = points_distance
 
-        return {
-            '$id': closer_partner.id,
-            'address': Partner.address_to_json(
-                closer_partner.address),
-            'coverage_area': Partner.coverage_area_to_json(
-                closer_partner.coverage_area),
-            'document': closer_partner.document,
-            'owner_name': closer_partner.owner_name,
-            'trading_name': closer_partner.trading_name
-        }
+        return partner.to_json()
 
 def create_apis(api):
     api.add_resource(PartnerResource)
