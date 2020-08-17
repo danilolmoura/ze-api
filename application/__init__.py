@@ -15,7 +15,7 @@ def create_app(config_name):
 
     @app.route('/', methods=['GET'])
     def index():
-        return 'Hello Zé Delivery'
+        return '<a href="https://github.com/danilolmoura/ze-api#api-documentação">Read the docs!</a>'
 
     app.logger.info('creating apis')
     from flask_potion import Api

@@ -68,8 +68,8 @@ Através deste recurso é possível criar um novo parceiro, considerando os pont
 POST /api/v1/partner
 {
 	"address": { 
-	  "type": "Point",
-	  "coordinates": [-46.57421, -21.785741]
+		"type": "Point",
+		"coordinates": [-46.57421, -21.785741]
 	},
 	"coverageArea": { 
 		"type": "MultiPolygon", 
@@ -136,8 +136,7 @@ HTTP Response 200
 {
 	"$id": 1,
 	"address": {
-	"coordinates": 
-		[-46.57421, -21.785741],
+		"coordinates": [-46.57421, -21.785741],
 		"type": "Point"
 	},
 	"coverageArea": {
