@@ -37,10 +37,10 @@ class TestPartnerResource():
             }
 
             data = {
-                "trading_name": trading_name,
-                "owner_name": owner_name,
+                "tradingName": trading_name,
+                "ownerName": owner_name,
                 "document": document,
-                "coverage_area": coverage_area,
+                "coverageArea": coverage_area,
                 "address": address
             }
 
@@ -52,10 +52,10 @@ class TestPartnerResource():
             assert res.status_code == 200
             res_json = json.loads(res.data)
 
-            assert res_json['trading_name'] == trading_name
-            assert res_json['owner_name'] == owner_name
+            assert res_json['tradingName'] == trading_name
+            assert res_json['ownerName'] == owner_name
             assert res_json['document'] == document
-            assert res_json['coverage_area'] == coverage_area
+            assert res_json['coverageArea'] == coverage_area
             assert res_json['address'] == address
 
         def should_raise_409_when_tries_to_creeate_a_partner_with_existing_document(test_client, session):
@@ -86,10 +86,10 @@ class TestPartnerResource():
             }
 
             data = {
-                "trading_name": trading_name,
-                "owner_name": owner_name,
+                "tradingName": trading_name,
+                "ownerName": owner_name,
                 "document": common_document,
-                "coverage_area": coverage_area,
+                "coverageArea": coverage_area,
                 "address": address
             }
 
@@ -101,10 +101,10 @@ class TestPartnerResource():
             assert res.status_code == 200
 
             data = {
-                "trading_name": trading_name,
-                "owner_name": owner_name,
+                "tradingName": trading_name,
+                "ownerName": owner_name,
                 "document": common_document,
-                "coverage_area": coverage_area,
+                "coverageArea": coverage_area,
                 "address": address
             }
 
@@ -121,10 +121,10 @@ class TestPartnerResource():
     def test_get_partner_endpoint(self, test_client, session, teardown):
         def should_return_partner_for_a_specified_id(test_client, session):
             data = {
-                "trading_name": "Bar do Ze",
-                "owner_name": "Joao Silva",
+                "tradingName": "Bar do Ze",
+                "ownerName": "Joao Silva",
                 "document": "04111111111",
-                "coverage_area": {
+                "coverageArea": {
                     "type": "MultiPolygon",
                     "coordinates": [
                         [
@@ -167,10 +167,10 @@ class TestPartnerResource():
     def test_search_nearest_partner_endpoint(self, test_client, session, teardown):
         def should_return_the_nearest_partner(test_client, session):
             data = {
-                "trading_name": "Bar do Ze",
-                "owner_name": "Joao Silva",
+                "tradingName": "Bar do Ze",
+                "ownerName": "Joao Silva",
                 "document": "04111111111",
-                "coverage_area": {
+                "coverageArea": {
                     "type": "MultiPolygon",
                     "coordinates": [
                         [
@@ -212,7 +212,7 @@ class TestPartnerResource():
                     'coordinates': [-43.297337, -23.013538],
                     'type': 'Point'
                 },
-                'coverage_area': {
+                'coverageArea': {
                     'coordinates': [
                         [
                             [
@@ -227,8 +227,8 @@ class TestPartnerResource():
                     'type': 'MultiPolygon'
                 },
                 'document': '04111111111',
-                'owner_name': 'Joao Silva',
-                'trading_name': 'Bar do Ze'
+                'ownerName': 'Joao Silva',
+                'tradingName': 'Bar do Ze'
             } == json.loads(res.data)
 
         should_return_the_nearest_partner(test_client, session)

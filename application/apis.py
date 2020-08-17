@@ -19,7 +19,7 @@ class PartnerResource(ModelResource):
             converter=Partner.address_from_json,
             formatter=Partner.address_to_json)
 
-        coverage_area = fields.Custom(
+        coverageArea = fields.Custom(
             {},
             converter=Partner.coverage_area_from_json,
             formatter=Partner.coverage_area_to_json)
@@ -41,7 +41,7 @@ class PartnerResource(ModelResource):
         point = Point(long, lat)
 
         partners = Partner.query.filter(
-            Partner.coverage_area.ST_Contains(from_shape(point))).all()
+            Partner.coverageArea.ST_Contains(from_shape(point))).all()
 
         closer_partner = None
         max_distance = float('inf')

@@ -14,13 +14,15 @@ class Partner(db.Model):
         primary_key=True,
         doc='id do parceiro')
 
-    trading_name = db.Column(
+    tradingName = db.Column(
         db.String(128),
+        name='trading_name',
         nullable=False,
         doc='nome comercial')
 
-    owner_name = db.Column(
+    ownerName = db.Column(
         db.String(128),
+        name='owner_name',
         nullable=False,
         doc='nome dono')
 
@@ -36,8 +38,9 @@ class Partner(db.Model):
         index=True,
         doc='endereço do parceiro')
 
-    coverage_area = db.Column(
+    coverageArea = db.Column(
         Geometry(geometry_type='MULTIPOLYGON'),
+        name='coverage_area',
         nullable=False,
         index=True,
         doc='cobertura do parceiro')
@@ -80,8 +83,8 @@ class Partner(db.Model):
         return {
             '$id': self.id,
             'address': Partner.address_to_json(self.address),
-            'coverage_area': Partner.coverage_area_to_json(self.coverage_area),
+            'coverageArea': Partner.coverage_area_to_json(self.coverageArea),
             'document': self.document,
-            'owner_name': self.owner_name,
-            'trading_name': self.trading_name
+            'ownerName': self.ownerName,
+            'tradingName': self.tradingName
         }
