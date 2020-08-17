@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2 import Geometry
 from geoalchemy2.shape import from_shape, to_shape
-from shapely.geometry import Point, MultiPolygon
+from shapely.geometry import Point, MultiPolygon, Polygon
 
 db = SQLAlchemy()
 
@@ -54,14 +54,15 @@ class Partner(db.Model):
         point = to_shape(data)
 
         return {
-            "type": "Point",
-            "coordinates": [point.y, point.x]
+            'type': 'Point',
+            'coordinates': [point.y, point.x]
         }
 
     @staticmethod
     def coverage_area_from_json(data):
-        wkb_element = from_shape(
-            MultiPolygon([[data['coordinates'][0][0], []]]))
+        polygons = [Polygon(coords[0]) for coords in data['coordinates']]
+
+        wkb_element = from_shape(MultiPolygon(polygons))
 
         return wkb_element
 
@@ -70,8 +71,8 @@ class Partner(db.Model):
         multipolygon = to_shape(data)
 
         return {
-            "type": "MultiPolygon",
-            "coordinates": [
+            'type': 'MultiPolygon',
+            'coordinates': [
                 [polygon.exterior.coords[:-1] for polygon in multipolygon]]
         }
 
